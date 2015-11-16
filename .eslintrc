@@ -1,0 +1,14 @@
+{
+    "extends": "eslint:recommended",
+    "env": {
+        "browser":true,
+        "jasmine":true
+    },
+    "globals": {
+        "angular":false,
+        "Vibrant":false
+    },
+    "plugins": [
+        "angular"
+    ]
+}

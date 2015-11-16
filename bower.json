@@ -1,0 +1,28 @@
+{
+  "name": "ngVibrant",
+  "authors": [
+    "Max Joehnk <maxjoehnk@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "AngularJS",
+    "Vibrant.js",
+    "Material",
+    "Design"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "github.com/maxjoehnk/ngVibrant",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vibrant": "*",
+    "angular": "~1.4.7"
+  }
+}
