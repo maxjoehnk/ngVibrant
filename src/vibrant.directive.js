@@ -14,7 +14,10 @@ function vibrant($vibrant) {
     return directive;
 
     function link(scope, element) {
-        var swatches = $vibrant(element[0]);
-        scope.vibrant = swatches;
+        scope.vibrant = [];
+        element.on('load', function() {
+            var swatches = $vibrant(element[0]);
+            scope.vibrant = swatches;            
+        });
     }
 }
