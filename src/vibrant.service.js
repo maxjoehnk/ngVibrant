@@ -6,7 +6,14 @@ function $vibrantProvider() {
     this.$get = function() {
         function $vibrant(element) {
             var instance = new Vibrant(element);
-            return instance.swatches();
+            var swatches = instance.swatches();
+            var rgb = {};
+            Object.getOwnPropertyNames(swatches).forEach(function(swatch) {
+                if (angular.isDefined(swatches[swatch])) {
+                    rgb[swatch] = swatches[swatch].rgb;
+                }
+            });
+            return rgb;
         }
     };
 }
