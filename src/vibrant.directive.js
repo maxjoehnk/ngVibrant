@@ -4,7 +4,7 @@ angular
 
 function vibrant($vibrant) {
     var directive = {
-        restrict: 'E',
+        restrict: 'A',
         scope: {
             vibrant: '=' //Model
         },
