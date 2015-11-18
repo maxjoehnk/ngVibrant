@@ -6,12 +6,12 @@ function rgbToHex() {
     return function(rgb) {
         if (angular.isArray(rgb)) {
             var hex = '#';
-            hex += rgb[0].toString(16);
-            hex += rgb[1].toString(16);
-            hex += rgb[2].toString(16);
+            rgb.forEach(function(color) {
+                hex += Math.round(color).toString(16);
+            });
             return hex;
         }else {
             return rgb;
         }
-    }
+    };
 }
