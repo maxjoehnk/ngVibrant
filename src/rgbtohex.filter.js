@@ -7,7 +7,11 @@ function rgbToHex() {
         if (angular.isArray(rgb)) {
             var hex = '#';
             rgb.forEach(function(color) {
-                hex += Math.round(color).toString(16);
+                var str = Math.round(color).toString(16);
+                if (str.length === 1) {
+                    hex += '0';
+                }
+                hex += str;
             });
             return hex;
         }else {
