@@ -28,7 +28,8 @@ function $vibrantProvider() {
      * @ngdoc method
      * @memberOf ngVibrant
      * @name  $vibrantProvider#setDefaultColors
-     * @param {int} [64] colors Sets the default amount of colors used for the initial palette from which the swatches will be generated
+     * @param {int} [64] colors
+     * Sets the default amount of colors used for the initial palette from which the swatches will be generated
      */
     function setDefaultColors(c) {
         defaultColors = c;
