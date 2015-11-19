@@ -5,18 +5,23 @@ angular
     .module('ngVibrant')
     .filter('rgbToHex', rgbToHex);
 
-function rgbToHex(rgb) {
-    if (angular.isArray(rgb)) {
-        var hex = '#';
-        hex += rgb[0].toString(16);
-        hex += rgb[1].toString(16);
-        hex += rgb[2].toString(16);
-        return hex;
-    }else {
-        return rgb;
-    }
+function rgbToHex() {
+    return function(rgb) {
+        if (angular.isArray(rgb)) {
+            var hex = '#';
+            rgb.forEach(function(color) {
+                var str = Math.round(color).toString(16);
+                if (str.length === 1) {
+                    hex += '0';
+                }
+                hex += str;
+            });
+            return hex;
+        }else {
+            return rgb;
+        }
+    };
 }
-rgbToHex.$inject = ['rgb'];
 
 angular
     .module('ngVibrant')
@@ -24,21 +29,29 @@ angular
 
 function vibrant($vibrant) {
     var directive = {
-        restrict: 'A',
+        restrict: 'AE',
         scope: {
-            vibrant: '=' //Model
+            model: '=ngModel', //Model
+            url: '@?',
+            color: '@?'
         },
         link: link
     };
 
     return directive;
 
-    function link(scope, element) {
-        scope.vibrant = [];
-        element.on('load', function() {
-            var swatches = $vibrant(element[0]);
-            scope.vibrant = swatches;
-        });
+    function link(scope, element, attrs) {
+        scope.model = [];
+        if (angular.isDefined(attrs.url)) {
+            $vibrant.get(attrs.url).then(function(swatches) {
+                scope.model = angular.isDefined(attrs.color) ? swatches[attrs.color] : swatches;
+            });
+        }else {
+            element.on('load', function() {
+                var swatches = $vibrant.vibrant(element[0]);
+                scope.model = angular.isDefined(attrs.color) ? swatches[attrs.color] : swatches;
+            });
+        }
     }
 }
 vibrant.$inject = ['$vibrant'];
@@ -48,10 +61,33 @@ angular
     .provider('$vibrant', $vibrantProvider);
 
 function $vibrantProvider() {
-    this.$get = function() {
-        function $vibrant(element) {
-            var instance = new Vibrant(element);
-            return instance.swatches();
-        }
-    };
+    this.$get = ['$q', '$document', function($q, $document) {
+        return ({
+            get: function(url) {
+                var that = this;
+                return $q(function(resolve, reject) {
+                    var pic = $document[0].createElement('img');
+                    pic.src = url;
+                    $document.find('body').append(pic);
+                    var element = angular.element(pic);
+                    element.css({display: 'none'});
+                    element.on('load', function() {
+                        resolve(that.vibrant(pic));
+                    });
+                    element.on('error', reject);
+                });
+            },
+            vibrant: function(element) {
+                var instance = new Vibrant(element);
+                var swatches = instance.swatches();
+                var rgb = {};
+                Object.getOwnPropertyNames(swatches).forEach(function(swatch) {
+                    if (angular.isDefined(swatches[swatch])) {
+                        rgb[swatch] = swatches[swatch].rgb;
+                    }
+                });
+                return rgb;
+            }
+        });
+    }];
 }
