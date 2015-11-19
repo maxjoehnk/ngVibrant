@@ -7,7 +7,8 @@ function $vibrantProvider() {
     var defaultQuality = 5;
     var provider = {
         setDefaultQuality: setDefaultQuality,
-        setDefaultColors: setDefaultColors
+        setDefaultColors: setDefaultColors,
+        $get: $get
     };
 
     function setDefaultQuality(q) {
@@ -16,7 +17,7 @@ function $vibrantProvider() {
     function setDefaultColors(c) {
         defaultColors = c;
     }
-    this.$get = function($q, $document) {
+    function $get($q, $document) {
         function vibrant(element, colors, quality) {
             if (angular.isUndefined(colors)) {
                 colors = defaultColors;
@@ -68,6 +69,6 @@ function $vibrantProvider() {
             return vibrant(element, colors, quality).lightMuted;
         };
         return vibrant;
-    };
+    }
     return provider;
 }
