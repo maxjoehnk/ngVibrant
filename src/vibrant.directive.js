@@ -23,7 +23,7 @@ function vibrant($vibrant) {
             });
         }else {
             element.on('load', function() {
-                var swatches = $vibrant.vibrant(element[0]);
+                var swatches = $vibrant(element[0]);
                 scope.model = angular.isDefined(attrs.color) ? swatches[attrs.color] : swatches;
             });
         }
