@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+  <head>
+    <base href="../">
+    <title>JSDoc: source : vibrant.service.js</title>
+    <link type="text/css" rel="stylesheet" href="css/jsdoc-default.css">
+    <link href="css/prettify-tomorrow.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,700" rel="stylesheet" type="text/css">
+    <link href="css/custom.css" type="text/css" rel="stylesheet">
+    <script src="js/prettify.js"></script>
+    <script src="js/angular.min.js"></script>
+  </head>
+  <body ng-app="">
+    <nav>
+      <h2><a href="index.html">Index</a></h2>
+      <ul class="module">
+        <!-- ng_ibrant -->
+        <h3>
+          <a href="" ng-click="moduleng_ibrant = !moduleng_ibrant">
+            module: ngVibrant
+          </a>
+          <i ng-cloak="" ng-show="moduleng_ibrant">+</i>
+        </h3>
+        <li id="ngVibrant" ng-hide="moduleng_ibrant">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ng_ibrantservice = !ng_ibrantservice">
+                service
+              </a>
+              <i ng-cloak="" ng-show="ng_ibrantservice">+</i>
+            </h3>
+            <ul ng-hide="ng_ibrantservice">
+              <li>
+                <a href="ngVibrant.$vibrant.html">$vibrant</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ng_ibrantprovider = !ng_ibrantprovider">
+                provider
+              </a>
+              <i ng-cloak="" ng-show="ng_ibrantprovider">+</i>
+            </h3>
+            <ul ng-hide="ng_ibrantprovider">
+              <li>
+                <a href="ngVibrant.$vibrantProvider.html">$vibrantProvider</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ng_ibrantdirective = !ng_ibrantdirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ng_ibrantdirective">+</i>
+            </h3>
+            <ul ng-hide="ng_ibrantdirective">
+              <li>
+                <a href="ngVibrant.vibrant.html">vibrant</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div id="content" class="page-wrap">
+      <h1 class="title">
+        source : vibrant.service.js
+      </h1>
+      <div id="main" class="big-container">
+        <!-- source code html -->
+        <article>
+          <pre class="prettyprint source linenums"><code>angular
+    .module('ngVibrant')
+    .provider('$vibrant', $vibrantProvider);
+/**
+ * @ngdoc provider
+ * @name  $vibrantProvider
+ * @memberOf  ngVibrant
+ */
+function $vibrantProvider() {
+    var defaultColors = 64;
+    var defaultQuality = 5;
+    var provider = {
+        setDefaultQuality: setDefaultQuality,
+        setDefaultColors: setDefaultColors,
+        $get: $vibrant
+    };
+    /**
+     * @ngdoc method
+     * @memberOf ngVibrant
+     * @name  $vibrantProvider#setDefaultQuality
+     * @param {int} [5] quality Sets the default quality used for swatch generation. 0 is highest
+     */
+    function setDefaultQuality(q) {
+        defaultQuality = q;
+    }
+    /**
+     * @ngdoc method
+     * @memberOf ngVibrant
+     * @name  $vibrantProvider#setDefaultColors
+     * @param {int} [64] colors Sets the default amount of colors used for the initial palette from which the swatches will be generated
+     */
+    function setDefaultColors(c) {
+        defaultColors = c;
+    }
+    /**
+     * @ngdoc   service
+     * @name    $vibrant
+     * @memberof  ngVibrant
+     * @description
+     * Generates swatches from an image using Vibrant.js
+     */
+    function $vibrant($q, $document) {
+        /**
+         * @ngdoc method
+         * @name  $vibrant
+         * @memberOf  $vibrant
+         * @param {element} element The img element to use for swatch generation
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {array} An array with all swatches. A swatch can be undefined
+         */
+        function vibrant(element, colors, quality) {
+            if (angular.isUndefined(colors)) {
+                colors = defaultColors;
+            }
+            if (angular.isUndefined(quality)) {
+                quality = defaultQuality;
+            }
+            var instance = new Vibrant(element, colors, quality);
+            var swatches = instance.swatches();
+            return swatches;
+        }
+        /**
+         * @ngdoc method
+         * @name  $vibrant#get
+         * @description
+         * Loads an image from the given url and generates its swatches
+         * @param {string} url The URL to load the image from
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {Promise} a `Promise` which resolves when the swatches are generated
+         */
+        vibrant.get = function(url, colors, quality) {
+            return $q(function(resolve, reject) {
+                var pic = $document[0].createElement('img');
+                pic.src = url;
+                $document.find('body').append(pic);
+                var element = angular.element(pic);
+                element.css({display: 'none'});
+                element.on('load', function() {
+                    resolve(vibrant(pic, colors, quality));
+                });
+                element.on('error', reject);
+            });
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#getDefaultQuality
+         * @return {int} The default quality used for swatch generation
+         */
+        vibrant.getDefaultQuality = function() {
+            return defaultQuality;
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#getDefaultColors
+         * @return {int} The default amount of colors used for swatch generation
+         */
+        vibrant.getDefaultColors = function() {
+            return defaultColors;
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#vibrant
+         * @description
+         * Alias for $vibrant(element, colors, quality).Vibrant
+         * @param {element} element The img element to use for swatch generation
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {Swatch} The 'Vibrant' Swatch or undefined
+         */
+        vibrant.vibrant = function(element, colors, quality) {
+            return vibrant(element, colors, quality).Vibrant;
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#muted
+         * @description
+         * Alias for $vibrant(element, colors, quality).Muted
+         * @param {element} element The img element to use for swatch generation
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {Swatch} The 'Muted' Swatch or undefined
+         */
+        vibrant.muted = function(element, colors, quality) {
+            return vibrant(element, colors, quality).Muted;
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#darkVibrant
+         * @description
+         * Alias for $vibrant(element, colors, quality).DarkVibrant
+         * @param {element} element The img element to use for swatch generation
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {Swatch} The 'DarkVibrant' Swatch or undefined
+         */
+        vibrant.darkVibrant = function(element, colors, quality) {
+            return vibrant(element, colors, quality).DarkVibrant;
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#darkMuted
+         * @description
+         * Alias for $vibrant(element, colors, quality).DarkMuted
+         * @param {element} element The img element to use for swatch generation
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {Swatch} The 'DarkMuted' Swatch or undefined
+         */
+        vibrant.darkMuted = function(element, colors, quality) {
+            return vibrant(element, colors, quality).DarkMuted;
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#lightVibrant
+         * @description
+         * Alias for $vibrant(element, colors, quality).LightVibrant
+         * @param {element} element The img element to use for swatch generation
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {Swatch} The 'LightVibrant' Swatch or undefined
+         */
+        vibrant.lightVibrant = function(element, colors, quality) {
+            return vibrant(element, colors, quality).lightVibrant;
+        };
+        /**
+         * @ngdoc method
+         * @name  $vibrant#lightMuted
+         * @description
+         * Alias for $vibrant(element, colors, quality).LightMuted
+         * @param {element} element The img element to use for swatch generation
+         * @param {int} [64] colors The amount of colors in initial palette from which the swatches will be generated
+         * @param {int} [5] quality The quality of the generated swatches. 0 is highest
+         * @return {Swatch} The 'LightMuted' Swatch or undefined
+         */
+        vibrant.lightMuted = function(element, colors, quality) {
+            return vibrant(element, colors, quality).lightMuted;
+        };
+        return vibrant;
+    }
+    return provider;
+}
+</code></pre>
+        </article>
+        <!-- index.html -->
+        <!-- class files -->
+      </div>
+      <footer style="clear:both">
+        Documentation generated by
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
+        using
+        <a href="https://github.com/allenhwkim/angular-jsdoc">Angular-JSDoc template</a>
+      </footer>
+    </div>
+    <!--%= prettyJson %-->
+    <script>
+      prettyPrint();
+      var lineNo = window.location.hash.match(/#line([0-9]+)$/);
+      lineNo && document.querySelector("ol li:nth-child("+(lineNo[1])+")").scrollIntoView();
+    </script>
+  </body>
+</html>
