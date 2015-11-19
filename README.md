@@ -47,3 +47,5 @@ ngVibrant provides a server for easy access to the Vibrant.js Library.
 				swatches = loaded;
 			});
 		}]);
+
+Read more in the [API Docs](http://maxjoehnk.github.io/ngVibrant/api/)
