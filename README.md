@@ -26,17 +26,20 @@ and that's basically it. You can modify some settings of course, but most of the
 Now just access Vibrant.js as a Service or as a Directive.
 ###Directive
 ngVibrant provides an attribute as well as an element for easy access.
+```html
 	<div ng-repeat="item in items" ng-style="{'background-color': item.swatch.getHex()}">
 		<img ng-src="{{item.image}}" vibrant ng-model="item.swatch" swatch="Vibrant"/>
 		<span ng-style="{color: item.swatch.getBodyTextColor()}">{{item.text}}</span>
 	</div>
-	
+```
+```html
 	<div ng-repeat="item in items" ng-style="{'background-color': item.swatch.Vibrant.getHex()}">
 		<vibrant url="{{item.image}}" ng-model="item.swatch"></vibrant>
 	</div>
-
+```
 ###Service
 ngVibrant provides a server for easy access to the Vibrant.js Library.
+```js
 	angular
 		.module('myApp')
 		.controller('MyCtrl', ['$vibrant', function($vibrant) {
@@ -47,5 +50,9 @@ ngVibrant provides a server for easy access to the Vibrant.js Library.
 				swatches = loaded;
 			});
 		}]);
+<<<<<<< HEAD
 
 Read more in the [API Docs](http://maxjoehnk.github.io/ngVibrant/api/)
+=======
+```
+>>>>>>> fbcf57a9e36bf2bb9889daea36e6dcb658ed8911
