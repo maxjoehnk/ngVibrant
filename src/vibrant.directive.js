@@ -8,7 +8,7 @@ function vibrant($vibrant) {
         scope: {
             model: '=ngModel', //Model
             url: '@?',
-            color: '@?'
+            swatch: '@?'
         },
         link: link
     };
@@ -19,12 +19,12 @@ function vibrant($vibrant) {
         scope.model = [];
         if (angular.isDefined(attrs.url)) {
             $vibrant.get(attrs.url).then(function(swatches) {
-                scope.model = angular.isDefined(attrs.color) ? swatches[attrs.color] : swatches;
+                scope.model = angular.isDefined(attrs.swatch) ? swatches[attrs.swatch] : swatches;
             });
         }else {
             element.on('load', function() {
                 var swatches = $vibrant(element[0]);
-                scope.model = angular.isDefined(attrs.color) ? swatches[attrs.color] : swatches;
+                scope.model = angular.isDefined(attrs.swatch) ? swatches[attrs.swatch] : swatches;
             });
         }
     }
