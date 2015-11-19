@@ -4,8 +4,14 @@ angular
 
 function $vibrantProvider() {
     this.$get = function($q, $document) {
-        function vibrant(element) {
-            var instance = new Vibrant(element);
+        function vibrant(element, colors, quality) {
+            if (angular.isUndefined(colors)) {
+                colors = 64;
+            }
+            if (angular.isUndefined(quality)) {
+                quality = 5;
+            }
+            var instance = new Vibrant(element, colors, quality);
             var swatches = instance.swatches();
             var rgb = {};
             Object.getOwnPropertyNames(swatches).forEach(function(swatch) {
