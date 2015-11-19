@@ -34,6 +34,24 @@ function $vibrantProvider() {
                 element.on('error', reject);
             });
         };
+        vibrant.vibrant = function(element, colors, quality) {
+            return vibrant(element, colors, quality).Vibrant;
+        };
+        vibrant.muted = function(element, colors, quality) {
+            return vibrant(element, colors, quality).Muted;
+        };
+        vibrant.darkVibrant = function(element, colors, quality) {
+            return vibrant(element, colors, quality).DarkVibrant;
+        };
+        vibrant.darkMuted = function(element, colors, quality) {
+            return vibrant(element, colors, quality).DarkMuted;
+        };
+        vibrant.lightVibrant = function(element, colors, quality) {
+            return vibrant(element, colors, quality).lightVibrant;
+        };
+        vibrant.lightMuted = function(element, colors, quality) {
+            return vibrant(element, colors, quality).lightMuted;
+        };
         return vibrant;
     };
 }
