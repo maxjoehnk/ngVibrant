@@ -13,13 +13,7 @@ function $vibrantProvider() {
             }
             var instance = new Vibrant(element, colors, quality);
             var swatches = instance.swatches();
-            var rgb = {};
-            Object.getOwnPropertyNames(swatches).forEach(function(swatch) {
-                if (angular.isDefined(swatches[swatch])) {
-                    rgb[swatch] = swatches[swatch].rgb;
-                }
-            });
-            return rgb;
+            return swatches;
         }
         vibrant.get = function(url) {
             return $q(function(resolve, reject) {
