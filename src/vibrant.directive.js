@@ -3,7 +3,7 @@ angular
     .directive('vibrant', vibrant);
 /**
  * @ngdoc directive
- * @memberOf ngVibrant 
+ * @memberOf ngVibrant
  * @name  vibrant
  * @restrict EA
  * @attr {object} ng-model  The Model to bind to
