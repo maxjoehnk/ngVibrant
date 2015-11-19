@@ -26,7 +26,7 @@ function vibrant($vibrant) {
             attrs.colors = $vibrant.getDefaultColors();
         }
         if (angular.isDefined(attrs.url)) {
-            $vibrant.get(attrs.url).then(function(swatches) {
+            $vibrant.get(attrs.url, attrs.colors, attrs.quality).then(function(swatches) {
                 scope.model = angular.isDefined(attrs.swatch) ? swatches[attrs.swatch] : swatches;
             });
         }else {
