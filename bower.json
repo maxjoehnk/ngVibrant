@@ -3,8 +3,11 @@
   "authors": [
     "Max Joehnk <maxjoehnk@gmail.com>"
   ],
-  "description": "",
-  "main": "",
+  "description": "AngularJS Bindings for Vibrant.js",
+  "main": [
+    "dist/angular-vibrant.js",
+    "dist/angular-vibrant.min.js"
+  ],
   "moduleType": [],
   "keywords": [
     "AngularJS",
@@ -13,13 +16,14 @@
     "Design"
   ],
   "license": "Apache-2.0",
-  "homepage": "github.com/maxjoehnk/ngVibrant",
+  "homepage": "http://github.com/maxjoehnk/ngVibrant",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "coverage"
   ],
   "dependencies": {
     "vibrant": "*",
