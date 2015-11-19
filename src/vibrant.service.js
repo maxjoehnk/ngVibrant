@@ -3,13 +3,26 @@ angular
     .provider('$vibrant', $vibrantProvider);
 
 function $vibrantProvider() {
+    var defaultColors = 64;
+    var defaultQuality = 5;
+    var provider = {
+        setDefaultQuality: setDefaultQuality,
+        setDefaultColors: setDefaultColors
+    };
+
+    function setDefaultQuality(q) {
+        defaultQuality = q;
+    }
+    function setDefaultColors(c) {
+        defaultColors = c;
+    }
     this.$get = function($q, $document) {
         function vibrant(element, colors, quality) {
             if (angular.isUndefined(colors)) {
-                colors = 64;
+                colors = defaultColors;
             }
             if (angular.isUndefined(quality)) {
-                quality = 5;
+                quality = defaultQuality;
             }
             var instance = new Vibrant(element, colors, quality);
             var swatches = instance.swatches();
@@ -28,6 +41,14 @@ function $vibrantProvider() {
                 element.on('error', reject);
             });
         };
+
+        vibrant.getDefaultQuality = function() {
+            return defaultQuality;
+        };
+        vibrant.getDefaultColors = function() {
+            return defaultColors;
+        };
+
         vibrant.vibrant = function(element, colors, quality) {
             return vibrant(element, colors, quality).Vibrant;
         };
@@ -48,4 +69,5 @@ function $vibrantProvider() {
         };
         return vibrant;
     };
+    return provider;
 }
