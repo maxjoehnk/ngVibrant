@@ -28,7 +28,7 @@ function $vibrantProvider() {
             var swatches = instance.swatches();
             return swatches;
         }
-        vibrant.get = function(url) {
+        vibrant.get = function(url, colors, quality) {
             return $q(function(resolve, reject) {
                 var pic = $document[0].createElement('img');
                 pic.src = url;
@@ -36,7 +36,7 @@ function $vibrantProvider() {
                 var element = angular.element(pic);
                 element.css({display: 'none'});
                 element.on('load', function() {
-                    resolve(vibrant(pic));
+                    resolve(vibrant(pic, colors, quality));
                 });
                 element.on('error', reject);
             });
