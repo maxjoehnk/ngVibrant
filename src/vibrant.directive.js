@@ -1,12 +1,23 @@
 angular
     .module('ngVibrant')
     .directive('vibrant', vibrant);
-
+/**
+ * @ngdoc directive
+ * @memberOf ngVibrant 
+ * @name  vibrant
+ * @restrict EA
+ * @attr {object} ng-model  The Model to bind to
+ * @attr {string} url The url to load
+ * @attr {string} swatch The Swatch to bind to the model (Vibrant, Muted, DarkVibrant, DarkMuted, LightVibrant, LightMuted)
+ * @attr {int} quality Overrides the quality used for palette generation. 0 is highest
+ * @attr {int} colors Overrides the amount of initial colors used for palette generation
+ * @param {service} $vibrant The $vibrant service
+ */
 function vibrant($vibrant) {
-    var directive = {
+    return {
         restrict: 'AE',
         scope: {
-            model: '=ngModel', //Model
+            model: '=ngModel',
             url: '@?',
             swatch: '@?',
             quality: '@?',
@@ -15,8 +26,12 @@ function vibrant($vibrant) {
         link: link
     };
 
-    return directive;
-
+    /**
+     * The link function for the vibrant directive
+     * @param  {service} scope  The current scope
+     * @param  {service} element The element
+     * @param  {object} attrs    The attributes
+     */
     function link(scope, element, attrs) {
         scope.model = [];
         if (angular.isUndefined(attrs.quality)) {
