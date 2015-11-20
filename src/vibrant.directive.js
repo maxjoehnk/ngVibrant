@@ -55,5 +55,14 @@ function vibrant($vibrant) {
                 });
             });
         }
+        
+        scope.$watch('url', function(oldVal, newVal) {
+            if (angular.isDefined(newVal)) {
+                $vibrant.get(newVal, attrs.colors, attrs.quality).then(function(swatches) {
+                    scope.model = angular.isDefined(attrs.swatch) ?
+                        swatches[attrs.swatch] : swatches;
+                });
+            }
+        });
     }
 }
