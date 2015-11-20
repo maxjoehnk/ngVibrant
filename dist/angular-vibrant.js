@@ -4,12 +4,11 @@ angular
 angular
     .module('ngVibrant')
     .directive('vibrant', vibrant);
-
 function vibrant($vibrant) {
-    var directive = {
+    return {
         restrict: 'AE',
         scope: {
-            model: '=ngModel', //Model
+            model: '=ngModel',
             url: '@?',
             swatch: '@?',
             quality: '@?',
@@ -17,9 +16,6 @@ function vibrant($vibrant) {
         },
         link: link
     };
-
-    return directive;
-
     function link(scope, element, attrs) {
         scope.model = [];
         if (angular.isUndefined(attrs.quality)) {
@@ -30,12 +26,16 @@ function vibrant($vibrant) {
         }
         if (angular.isDefined(attrs.url)) {
             $vibrant.get(attrs.url, attrs.colors, attrs.quality).then(function(swatches) {
-                scope.model = angular.isDefined(attrs.swatch) ? swatches[attrs.swatch] : swatches;
+                scope.model = angular.isDefined(attrs.swatch) ?
+                    swatches[attrs.swatch] : swatches;
             });
         }else {
             element.on('load', function() {
                 var swatches = $vibrant(element[0], attrs.colors, attrs.quality);
-                scope.model = angular.isDefined(attrs.swatch) ? swatches[attrs.swatch] : swatches;
+                scope.$apply(function() {
+                    scope.model = angular.isDefined(attrs.swatch) ?
+                        swatches[attrs.swatch] : swatches;
+                });
             });
         }
     }
@@ -45,23 +45,21 @@ vibrant.$inject = ['$vibrant'];
 angular
     .module('ngVibrant')
     .provider('$vibrant', $vibrantProvider);
-
 function $vibrantProvider() {
     var defaultColors = 64;
     var defaultQuality = 5;
     var provider = {
         setDefaultQuality: setDefaultQuality,
         setDefaultColors: setDefaultColors,
-        $get: $get
+        $get: $vibrant
     };
-
     function setDefaultQuality(q) {
         defaultQuality = q;
     }
     function setDefaultColors(c) {
         defaultColors = c;
     }
-    function $get($q, $document) {
+    function $vibrant($q, $document) {
         function vibrant(element, colors, quality) {
             if (angular.isUndefined(colors)) {
                 colors = defaultColors;
@@ -86,14 +84,12 @@ function $vibrantProvider() {
                 element.on('error', reject);
             });
         };
-
         vibrant.getDefaultQuality = function() {
             return defaultQuality;
         };
         vibrant.getDefaultColors = function() {
             return defaultColors;
         };
-
         vibrant.vibrant = function(element, colors, quality) {
             return vibrant(element, colors, quality).Vibrant;
         };
@@ -114,6 +110,6 @@ function $vibrantProvider() {
         };
         return vibrant;
     }
-    $get.$inject = ['$q', '$document'];
+    $vibrant.$inject = ['$q', '$document'];
     return provider;
 }
