@@ -43,12 +43,16 @@ function vibrant($vibrant) {
         }
         if (angular.isDefined(attrs.url)) {
             $vibrant.get(attrs.url, attrs.colors, attrs.quality).then(function(swatches) {
-                scope.model = angular.isDefined(attrs.swatch) ? swatches[attrs.swatch] : swatches;
+                scope.model = angular.isDefined(attrs.swatch) ?
+                    swatches[attrs.swatch] : swatches;
             });
         }else {
             element.on('load', function() {
                 var swatches = $vibrant(element[0], attrs.colors, attrs.quality);
-                scope.model = angular.isDefined(attrs.swatch) ? swatches[attrs.swatch] : swatches;
+                scope.$apply(function() {
+                    scope.model = angular.isDefined(attrs.swatch) ?
+                        swatches[attrs.swatch] : swatches;
+                });
             });
         }
     }
