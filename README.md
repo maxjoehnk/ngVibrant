@@ -1,4 +1,6 @@
 # ngVibrant
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/maxjoehnk/ngVibrant.svg)](https://greenkeeper.io/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg?style=flat-square)](https://github.com/maxjoehnk/ngVibrant/blob/master/LICENSE)
 
 AngularJS Bindings for [Vibrant.js](http://jariz.github.io/vibrant.js/).
